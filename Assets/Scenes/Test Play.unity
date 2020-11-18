@@ -5319,7 +5319,7 @@ MonoBehaviour:
     m_Bits: 256
   m_Position: {x: 0, y: 0, z: 0}
   m_Radius: 25
-  m_Force: 1000
+  m_Force: 50
 --- !u!135 &1682805136
 SphereCollider:
   m_ObjectHideFlags: 0
