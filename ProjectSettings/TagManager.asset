@@ -4,7 +4,6 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Item
   - Sticky
   layers:
   - Default
@@ -15,8 +14,8 @@ TagManager:
   - UI
   - 
   - 
+  - PostProcessing
   - G
-  - 
   - 
   - 
   - 
