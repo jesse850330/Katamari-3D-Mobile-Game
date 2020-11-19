@@ -56,13 +56,10 @@ public class CS_Ball : MonoBehaviour
 
     private void LateUpdate()
     {
-        // transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
         if (Input.GetButtonDown("Jump"))
         {
             if (ground == true)
             {
-
-                //transform.Translate(new Vector3(Input.GetAxis(“Horizontal”)*distance, 2, Input.GetAxis(“Vertical”)*distance));
                 GetComponent<Rigidbody>().velocity = new Vector3(0, 5, 0);
                 GetComponent<Rigidbody>().AddForce(Vector3.up * mJumpSpeed);
                 ground = false;
@@ -84,17 +81,17 @@ public class CS_Ball : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Sticky"))
+        if (other.transform.CompareTag("Trash"))
         {
             transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
             distanceToCamera += 0.08f;
             PickUps++;
-            SCollider1.radius += 0.02f;
-            SCollider2.radius += 0.02f;
-            SCollider3.radius += 0.02f;
-            SCollider4.radius += 0.02f;
-            SCollider5.radius += 0.02f;
-            SCollider6.radius += 0.02f;
+            SCollider1.radius += 0.01f;
+            SCollider2.radius += 0.01f;
+            SCollider3.radius += 0.01f;
+            SCollider4.radius += 0.01f;
+            SCollider5.radius += 0.01f;
+            SCollider6.radius += 0.01f;
             other.enabled = false;
             other.transform.SetParent(this.transform);
         }
