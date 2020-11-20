@@ -11,15 +11,15 @@ public class CS_Player : MonoBehaviour
     private float timer;
     public float offsetTime = 0.1f;
     public float SlidingDistance = 80f;
-    
+
     void Start()
     {
-        
+
     }
 
     void Update()
     {
-        
+
     }
     void OnGUI()
     {

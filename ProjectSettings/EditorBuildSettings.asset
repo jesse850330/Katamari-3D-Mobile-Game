@@ -8,4 +8,19 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/UI/Scenes/Main menu.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/Katamari Test.unity
+    guid: f1b6933f7a82c7d42a6a5fff2ce05bac
+  - enabled: 1
+    path: Assets/UI/Scenes/Game over.unity
+    guid: d803692aade512f42b6446c537723866
+  - enabled: 1
+    path: Assets/UI/Scenes/In game Instruction.unity
+    guid: 2889d85e7206a0f41b8799e61851c186
+  - enabled: 1
+    path: Assets/UI/Scenes/Jump instruction.unity
+    guid: cfe814cd46c308f4cbc35f665b24efb1
   m_configObjects: {}
