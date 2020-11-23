@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class CS_Camera : MonoBehaviour
 {
-    public GameObject ball;
-    Vector3 LookAtOffSet;
+    public Transform target;
+    private Vector3 offset;
+    
 
     void Start()
     {
-        LookAtOffSet = new Vector3(0, 1.5f, 0);
+        offset = target.position - this.transform.position;
     }
 
     void Update()
     {
-        transform.LookAt(ball.transform.position + LookAtOffSet);
+        this.transform.position = target.position - offset;
     }
 }

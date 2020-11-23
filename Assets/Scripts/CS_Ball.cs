@@ -4,23 +4,15 @@ using UnityEngine;
 
 public class CS_Ball : MonoBehaviour
 {
+    public static float timeRemaining;
     public int PickUps;
-    public SphereCollider SCollider1;
-    public SphereCollider SCollider2;
-    public SphereCollider SCollider3;
-    public SphereCollider SCollider4;
-    public SphereCollider SCollider5;
-    public SphereCollider SCollider6;
-    public float facingAngle = 0;
-    float x = 0;
-    float z = 0;
-    Vector2 unitV2;
-    Vector3 dir = Vector3.zero;
-    public GameObject cameraReference;
+    public SphereCollider SCollider;
+    float x;
     float distanceToCamera = 5;
     public GameObject PickUp;
     public LayerMask m_MagneticLayers;
     public Vector3 m_Position;
+    public float mMovespeed = 5f;
     public float mJumpSpeed = 10f;
     public float m_Radius;
     public float m_Force;
@@ -32,29 +24,18 @@ public class CS_Ball : MonoBehaviour
     private slideVector currentVector = slideVector.nullVector;
     private float timer;
     public float offsetTime = 0.1f;
-    public float SlidingDistance = 80f;
+    public float SlidingDistance = 30f;
+    private Rigidbody rigidbodyPlayer;
+
     void Start()
     {
         PickUps = 0;
+        rigidbodyPlayer = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        // dir.x = -Input.acceleration.y;
-        // dir.z = Input.acceleration.x;
-        // if (dir.sqrMagnitude > 1)
-        // {
-        //     dir.Normalize();
-        // }
-        // dir *= Time.deltaTime;
-        
-        x = Input.GetAxis("Horizontal") * Time.deltaTime * -100;
-        x = Input.acceleration.x * Time.deltaTime * -100;
-        z = Input.GetAxis("Vertical") * Time.deltaTime * 500;
-        z = Input.acceleration.y * Time.deltaTime * 500;
-        facingAngle += x;
-        unitV2 = new Vector2(Mathf.Cos(facingAngle * Mathf.Deg2Rad), Mathf.Sin(facingAngle * Mathf.Deg2Rad));
-
+        transform.Translate(new Vector3(0, 0, 1f) * mMovespeed * Time.deltaTime, Space.World);
         if (magnetism)
         {
             Collider[] colliders;
@@ -74,6 +55,10 @@ public class CS_Ball : MonoBehaviour
 
     private void LateUpdate()
     {
+        Vector3 movement = new Vector3(0f, 0f, 2f);
+        Vector3 left = new Vector3(-5f, 0f, 5f);
+        Vector3 right = new Vector3(5f, 0f, 5f);
+        rigidbodyPlayer.AddForce(movement * 1f);
         if (Input.GetButtonDown("Jump") || currentVector == slideVector.up)
         {
             if (ground == true)
@@ -89,9 +74,47 @@ public class CS_Ball : MonoBehaviour
                 currentVector = slideVector.nullVector;
             }
         }
-        this.transform.GetComponent<Rigidbody>().AddForce(new Vector3(unitV2.x, 0, unitV2.y) * z * 3);
-        // this.transform.GetComponent<Rigidbody>().AddForce(dir*5);
-        cameraReference.transform.position = new Vector3(-unitV2.x * distanceToCamera, distanceToCamera, -unitV2.y * distanceToCamera) + this.transform.position;
+        timeRemaining += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.A) || currentVector == slideVector.left)
+        {
+            if (x == -1)
+            {
+                x = x;
+                currentVector = slideVector.nullVector;
+            }
+            else
+            {
+                x--;
+                rigidbodyPlayer.AddForce(left * 20f);
+                currentVector = slideVector.nullVector;
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.D) || currentVector == slideVector.right)
+        {
+            if (x == 1)
+            {
+                x = x;
+                currentVector = slideVector.nullVector;
+            }
+            else
+            {
+                x++;
+                rigidbodyPlayer.AddForce(right * 20f);
+                currentVector = slideVector.nullVector;
+            }
+        }
+        if (x == -1)
+        {
+            gameObject.transform.localPosition = Vector3.MoveTowards(gameObject.transform.localPosition, new Vector3(-2.4f, gameObject.transform.localPosition.y, gameObject.transform.localPosition.z), 4f * Time.deltaTime);
+        }
+        if (x == 0)
+        {
+            gameObject.transform.localPosition = Vector3.MoveTowards(gameObject.transform.localPosition, new Vector3(0, gameObject.transform.localPosition.y, gameObject.transform.localPosition.z), 4f * Time.deltaTime);
+        }
+        if (x == 1)
+        {
+            gameObject.transform.localPosition = Vector3.MoveTowards(gameObject.transform.localPosition, new Vector3(2.4f, gameObject.transform.localPosition.y, gameObject.transform.localPosition.z), 4f * Time.deltaTime);
+        }
         PickupCategories();
     }
 
@@ -110,12 +133,7 @@ public class CS_Ball : MonoBehaviour
             transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
             distanceToCamera += 0.08f;
             PickUps++;
-            SCollider1.radius += 0.01f;
-            SCollider2.radius += 0.01f;
-            SCollider3.radius += 0.01f;
-            SCollider4.radius += 0.01f;
-            SCollider5.radius += 0.01f;
-            SCollider6.radius += 0.01f;
+            SCollider.radius += 0.005f;
             other.enabled = false;
             other.transform.SetParent(this.transform);
         }
